@@ -63,21 +63,21 @@
 
         @media (prefers-color-scheme: dark) {
             :root {
-                /* Dark Theme (Mocha/Chocolate tones to maintain the vibe in dark mode) */
-                --md-sys-color-primary: #FFB59A;
-                --md-sys-color-on-primary: #522300;
-                --md-sys-color-primary-container: #703700;
-                --md-sys-color-on-primary-container: #FFDBCC;
+                /* Dark Theme (Deep warm chocolate tones with stark dark shadows) */
+                --md-sys-color-primary: #FFB59A;         /* Bright peach for highlights */
+                --md-sys-color-on-primary: #3D1F08;      /* Dark text on primary */
+                --md-sys-color-primary-container: #5A2E0C; /* Dark terracotta */
+                --md-sys-color-on-primary-container: #FFEDDB;
                 
-                --md-sys-color-surface: #2B221E;
-                --md-sys-color-on-surface: #ECE0DA;
-                --md-sys-color-surface-variant: #52443C;
-                --md-sys-color-on-surface-variant: #D7C2B9;
+                --md-sys-color-surface: #362219;         /* Warm dark brown cards */
+                --md-sys-color-on-surface: #FFEDDB;      /* Light peach text */
+                --md-sys-color-surface-variant: #4A3125; /* Slightly lighter brown */
+                --md-sys-color-on-surface-variant: #E8DCC8; 
                 
-                --md-sys-color-background: #201A17;
-                --md-sys-color-on-background: #ECE0DA;
+                --md-sys-color-background: #20140F;      /* Very dark warm background */
+                --md-sys-color-on-background: #FFEDDB;
                 
-                --md-sys-color-outline: #9F8D84;
+                --md-sys-color-outline: #110703;         /* ALMOST BLACK for stark Nintendo shadows */
             }
             
             img:not(.logo) {
@@ -150,8 +150,11 @@
     <nav class="fixed w-full z-50 bg-background border-b-[3px] border-outline">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <div class="flex items-center gap-3">
-                    <img src="ic_musepass_logo.png" alt="MusePass Logo" class="logo w-10 h-10 transform hover:rotate-12 transition-transform duration-300">
+                <div class="flex items-center gap-4">
+                    <!-- Cut-out floating pin logo -->
+                    <div class="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center border-[3px] border-outline transform hover:rotate-12 transition-transform duration-300" style="box-shadow: 3px 3px 0 var(--md-sys-color-outline);">
+                        <img src="ic_musepass_logo.png" alt="MusePass Logo" class="w-8 h-8 rounded-lg object-contain">
+                    </div>
                     <span class="font-bold text-2xl tracking-tight text-on-background">MusePass</span>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
@@ -285,9 +288,9 @@
                         <h2 class="text-3xl font-extrabold text-on-background mb-2">Get MusePass</h2>
                         <p class="text-on-surface-variant font-bold">Available via F-Droid. Open-source and privacy-respecting.</p>
                     </div>
-                    <!-- Thick border on the bot icon container -->
+                    <!-- Thick border on the bot icon container, changed to use img tag -->
                     <div class="w-20 h-20 bg-primary-container rounded-3xl flex items-center justify-center border-[3px] border-outline transform rotate-6 hover:-rotate-3 transition-transform duration-300" style="box-shadow: 4px 4px 0 var(--md-sys-color-outline);">
-                        <i data-lucide="bot" class="w-10 h-10 text-primary"></i>
+                        <i data-lucide="download" class="w-10 h-10 text-primary"></i>
                     </div>
                 </div>
 
@@ -344,9 +347,10 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-4 gap-8 mb-12">
                 <div class="col-span-2">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-background rounded-lg p-1.5 border-2 border-background">
-                            <img src="ic_musepass_logo.png" alt="MusePass Logo" class="logo w-6 h-6" style="filter: brightness(0) saturate(100%) invert(18%) sepia(21%) saturate(2257%) hue-rotate(345deg) brightness(98%) contrast(92%);">
+                    <div class="flex items-center gap-4 mb-5">
+                        <!-- Cut-out floating pin logo for Footer (uses background color for shadow/border to contrast with dark footer) -->
+                        <div class="w-10 h-10 bg-primary-container rounded-xl flex items-center justify-center border-[3px] border-background transform -rotate-6" style="box-shadow: 2px 2px 0 var(--md-sys-color-background);">
+                            <img src="ic_musepass_logo.png" alt="MusePass Logo" class="w-6 h-6 rounded-md object-contain">
                         </div>
                         <span class="font-extrabold text-xl text-background">MusePass</span>
                     </div>
