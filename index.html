@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusePass - StreetPass for your Music</title>
+    <!-- Using Quicksand for a friendly, modern M3 feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--md-sys-color-primary)',
+                        'on-primary': 'var(--md-sys-color-on-primary)',
+                        'primary-container': 'var(--md-sys-color-primary-container)',
+                        'on-primary-container': 'var(--md-sys-color-on-primary-container)',
+                        surface: 'var(--md-sys-color-surface)',
+                        'on-surface': 'var(--md-sys-color-on-surface)',
+                        'surface-variant': 'var(--md-sys-color-surface-variant)',
+                        'on-surface-variant': 'var(--md-sys-color-on-surface-variant)',
+                        background: 'var(--md-sys-color-background)',
+                        'on-background': 'var(--md-sys-color-on-background)',
+                        outline: 'var(--md-sys-color-outline)'
+                    },
+                    fontFamily: {
+                        sans: ['Quicksand', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(-2deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(2deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Material 3 Design Tokens */
+        :root {
+            /* Light Theme (Derived from your purple SVG logo & neutral tones) */
+            --md-sys-color-primary: #7845AC;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #F0DBFF;
+            --md-sys-color-on-primary-container: #2C0051;
+            
+            --md-sys-color-surface: #FEF7FF;
+            --md-sys-color-on-surface: #1D1B20;
+            --md-sys-color-surface-variant: #E7E0EC;
+            --md-sys-color-on-surface-variant: #49454F;
+            
+            --md-sys-color-background: #FEF7FF;
+            --md-sys-color-on-background: #1D1B20;
+            
+            --md-sys-color-outline: #79747E;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* Dark Theme */
+                --md-sys-color-primary: #DCB8FF;
+                --md-sys-color-on-primary: #470E7A;
+                --md-sys-color-primary-container: #5F2B92;
+                --md-sys-color-on-primary-container: #F0DBFF;
+                
+                --md-sys-color-surface: #141218;
+                --md-sys-color-on-surface: #E6E0E9;
+                --md-sys-color-surface-variant: #49454F;
+                --md-sys-color-on-surface-variant: #CAC4D0;
+                
+                --md-sys-color-background: #141218;
+                --md-sys-color-on-background: #E6E0E9;
+                
+                --md-sys-color-outline: #938F99;
+            }
+            
+            /* Add a subtle filter to images in dark mode to reduce glare */
+            img:not(.logo) {
+                opacity: 0.9;
+            }
+        }
+
+        /* Playful Enhancements */
+        .btn-chunky {
+            box-shadow: 0 4px 0 var(--md-sys-color-outline);
+            transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-chunky:active {
+            transform: translateY(4px) !important;
+            box-shadow: 0 0px 0 var(--md-sys-color-outline);
+        }
+        
+        .music-particle {
+            position: absolute;
+            opacity: 0;
+            animation: rise 5s ease-in infinite;
+            color: var(--md-sys-color-primary);
+            z-index: 0;
+        }
+        @keyframes rise {
+            0% { bottom: -20px; transform: translateX(0) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.15; }
+            80% { opacity: 0.15; }
+            100% { bottom: 120%; transform: translateX(-50px) scale(1.2) rotate(45deg); opacity: 0; }
+        }
+
+        /* Standard M3 transition for interactive elements */
+        .m3-interactive {
+            transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1), 
+                        color 0.2s cubic-bezier(0.2, 0, 0, 1),
+                        box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-sans antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container m3-interactive">
+
+    <!-- Playful Background Effects -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <i data-lucide="music" class="music-particle w-12 h-12 left-[10%]" style="animation-delay: 0s; animation-duration: 7s;"></i>
+        <i data-lucide="music-2" class="music-particle w-8 h-8 left-[30%]" style="animation-delay: 2s; animation-duration: 9s;"></i>
+        <i data-lucide="music" class="music-particle w-16 h-16 left-[60%]" style="animation-delay: 1s; animation-duration: 8s;"></i>
+        <i data-lucide="music-3" class="music-particle w-10 h-10 left-[80%]" style="animation-delay: 4s; animation-duration: 6s;"></i>
+    </div>
+
+    <!-- Navigation (M3 Top App Bar style) -->
+    <nav class="fixed w-full z-50 bg-surface/90 backdrop-blur-md border-b border-surface-variant">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-3">
+                    <img src="ic_musepass_logo.svg" alt="MusePass Logo" class="logo w-10 h-10 transform hover:rotate-12 transition-transform duration-300">
+                    <span class="font-bold text-2xl tracking-tight text-on-surface">MusePass</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-on-surface hover:text-primary font-medium text-lg transition-colors">Features</a>
+                    <a href="#screenshots" class="text-on-surface hover:text-primary font-medium text-lg transition-colors">Screenshots</a>
+                    <!-- M3 Filled Button -->
+                    <a href="#download" class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-medium text-[15px] hover:opacity-90 m3-interactive btn-chunky transform -rotate-1">Get the App</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="pt-32 pb-20 lg:pt-48 lg:pb-32 relative z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                
+                <!-- Hero Text -->
+                <div class="flex-1 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-variant text-on-surface-variant font-medium text-sm mb-6 border border-outline/20">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-primary"></i>
+                        Currently in Development
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-on-background leading-[1.15]">
+                        StreetPass for <br />
+                        <span class="text-primary">your Music</span>
+                    </h1>
+                    
+                    <p class="mt-4 text-xl md:text-2xl text-on-surface-variant mb-10 font-medium max-w-2xl mx-auto lg:mx-0">
+                        Walk past someone and instantly discover their current jam. Express yourself, share your vibe, and connect via Bluetooth.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
+                        <a href="#download" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary text-on-primary px-8 py-3.5 rounded-full text-[15px] font-medium hover:opacity-90 m3-interactive btn-chunky transform -rotate-1">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                            Get it on F-Droid
+                        </a>
+                        <!-- M3 Tonal Button -->
+                        <a href="#features" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-primary-container text-on-primary-container px-8 py-3.5 rounded-full text-[15px] font-medium hover:bg-primary-container/80 m3-interactive btn-chunky transform rotate-1">
+                            See how it works
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hero Image (Clean M3 Device Frame) -->
+                <div class="flex-1 w-full max-w-sm mx-auto lg:max-w-md perspective-1000">
+                    <div class="bg-surface border-[8px] border-surface-variant rounded-[2.5rem] shadow-xl overflow-hidden relative transform rotate-2 hover:rotate-0 transition-transform duration-500 animate-float">
+                        <div class="absolute top-0 inset-x-0 h-6 bg-surface-variant rounded-b-3xl w-32 mx-auto z-20"></div> <!-- Subtle Notch -->
+                        <img src="5747.png" alt="MusePass Encounters Feed" class="w-full h-auto object-cover rounded-[2rem] relative z-10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-surface relative z-10 border-y border-surface-variant/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-on-background mb-4">Vibe Check, Passed.</h2>
+                <p class="text-lg text-on-surface-variant max-w-2xl mx-auto">Seamlessly share and discover music using low-energy Bluetooth, completely localized and private.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Feature Card (M3 Elevated) -->
+                <div class="bg-surface-variant p-8 rounded-3xl m3-interactive hover:shadow-md">
+                    <div class="w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center mb-6 shadow-sm transform -rotate-3">
+                        <i data-lucide="radio" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-on-surface">Passive Discovery</h3>
+                    <p class="text-[15px] text-on-surface-variant leading-relaxed">Keep the app in the background. As you pass by other users, automatically log their current or last played track.</p>
+                </div>
+                
+                <!-- Feature Card -->
+                <div class="bg-surface-variant p-8 rounded-3xl m3-interactive hover:shadow-md">
+                    <div class="w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center mb-6 shadow-sm transform rotate-3">
+                        <i data-lucide="smile" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-on-surface">Express Yourself</h3>
+                    <p class="text-[15px] text-on-surface-variant leading-relaxed">Create your own unique avatar. Choose your style, colors, and clothing to represent your musical persona to the world.</p>
+                </div>
+                
+                <!-- Feature Card -->
+                <div class="bg-surface-variant p-8 rounded-3xl m3-interactive hover:shadow-md">
+                    <div class="w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center mb-6 shadow-sm transform -rotate-3">
+                        <i data-lucide="link" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-on-surface">Social Bridges</h3>
+                    <p class="text-[15px] text-on-surface-variant leading-relaxed">Attach a social media link right to your broadcast profile. Met someone with great taste? You're already connected.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Gallery / Screenshots -->
+    <section id="screenshots" class="py-24 bg-background relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-on-background mb-4">A Look Inside</h2>
+                <p class="text-lg text-on-surface-variant">Clean, cozy, and built for modern Android.</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-10">
+                <!-- Phone 1 -->
+                <div class="w-64 bg-surface border-[8px] border-surface-variant rounded-[2.5rem] shadow-lg overflow-hidden">
+                    <img src="5747.png" alt="Encounters Feed" class="w-full h-auto">
+                </div>
+                
+                <!-- Phone 2 -->
+                <div class="w-64 bg-surface border-[8px] border-surface-variant rounded-[2.5rem] shadow-lg overflow-hidden">
+                    <img src="5748.png" alt="User Profile" class="w-full h-auto">
+                </div>
+
+                <!-- Phone 3 -->
+                <div class="w-64 bg-surface border-[8px] border-surface-variant rounded-[2.5rem] shadow-lg overflow-hidden">
+                    <img src="5749.png" alt="Avatar Maker" class="w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- F-Droid Installation Section -->
+    <section id="download" class="py-24 bg-surface-variant relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-surface rounded-[2rem] p-8 md:p-12 shadow-sm border border-outline/20">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-3xl font-bold text-on-surface mb-2">Get MusePass</h2>
+                        <p class="text-on-surface-variant">Available via F-Droid. Open-source and privacy-respecting.</p>
+                    </div>
+                    <div class="w-20 h-20 bg-primary-container rounded-2xl flex items-center justify-center shadow-inner transform rotate-6 hover:-rotate-3 transition-transform duration-300">
+                        <i data-lucide="bot" class="w-10 h-10 text-on-primary-container"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-sm transform -rotate-6 shadow-md">1</div>
+                        <div class="pt-1">
+                            <h4 class="text-lg font-bold text-on-surface mb-1">Install F-Droid</h4>
+                            <p class="text-[15px] text-on-surface-variant mb-2">If you haven't already, install the alternative app store for Android.</p>
+                            <a href="https://f-droid.org/" target="_blank" class="inline-flex items-center gap-1.5 text-primary font-medium hover:underline text-sm">
+                                Download F-Droid <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-sm transform rotate-6 shadow-md">2</div>
+                        <div class="pt-1">
+                            <h4 class="text-lg font-bold text-on-surface mb-1">Search & Install</h4>
+                            <p class="text-[15px] text-on-surface-variant">Open F-Droid, update your repositories, and search for <strong>"MusePass"</strong>. Tap install.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-sm transform -rotate-6 shadow-md">3</div>
+                        <div class="pt-1">
+                            <h4 class="text-lg font-bold text-on-surface mb-1">Grant Permissions</h4>
+                            <p class="text-[15px] text-on-surface-variant">Launch the app and grant <strong>Bluetooth (Nearby Devices)</strong> and <strong>Location</strong> access. These are strictly required for the background BLE scanning to function.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface text-on-surface pt-16 pb-8 border-t border-surface-variant">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="ic_musepass_logo.svg" alt="MusePass Logo" class="logo w-6 h-6 grayscale opacity-80">
+                        <span class="font-bold text-xl text-on-surface">MusePass</span>
+                    </div>
+                    <p class="text-sm text-on-surface-variant max-w-sm">
+                        Connecting the world through the power of local music sharing. Built with Material 3.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-on-surface mb-4">Project</h4>
+                    <ul class="space-y-2 text-sm text-on-surface-variant">
+                        <li><a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><i data-lucide="github" class="w-4 h-4"></i> Source Code</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><i data-lucide="bug" class="w-4 h-4"></i> Issue Tracker</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-on-surface mb-4">Community</h4>
+                    <ul class="space-y-2 text-sm text-on-surface-variant">
+                        <li><a href="#" class="hover:text-primary transition-colors">Discord Server</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Twitter / X</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Reddit</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-surface-variant text-sm text-on-surface-variant flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 MusePass Project. GPLv3.</p>
+                <div class="flex items-center gap-1">
+                    Crafted for Android
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
